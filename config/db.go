@@ -25,7 +25,7 @@ func ConnectDB() {
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_DATABASE")
 
-	dbConnectionStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUsername, dbPassword, dbHost, dbPort, dbName)
+	dbConnectionStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUsername, dbPassword, dbHost, dbPort, dbName)
 
 	db, err := sql.Open("mysql", dbConnectionStr)
 	if err != nil {
@@ -33,10 +33,10 @@ func ConnectDB() {
 	}
 	// defer db.Close()
 
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
+	// err = db.Ping()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	fmt.Println("Connected to MySQL!")
 
