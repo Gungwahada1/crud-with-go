@@ -1,0 +1,17 @@
+path of project:
+- crud-with-go/
+  - config/
+    - config.go
+  - controllers/
+    - controller1.go
+    - controller2.go
+  - routes/
+    - routes.go
+  - models/
+    - model1.go
+    - model2.go
+  - entities/
+    - entity1.go
+    - entity2.go
+  - views/
+  - main.go

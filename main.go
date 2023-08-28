@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	// "fmt"
 	"crud-with-go/config"
-	"os"
+	"crud-with-go/routes"
 
 	"github.com/joho/godotenv"
 )
@@ -21,10 +22,13 @@ func main() {
 
 	config.ConnectDB()
 
-	messageServer := fmt.Sprintf("Server running on port %s", os.Getenv("SERVER_PORT"))
+	messageServer := fmt.Sprintf("Server running on: http://%s:%s", os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))
 	hostServer := fmt.Sprintf("%s:%s", os.Getenv("SERVER_HOST"), os.Getenv("SERVER_PORT"))
 
 	log.Println(messageServer)
+
+	routes.InitRoutes()
+
 	http.ListenAndServe(
 		hostServer,
 		nil,
