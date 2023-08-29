@@ -6,7 +6,7 @@ import (
 )
 
 func GetAll() []entities.Religion {
-	rows, err := config.DB.Query("SELECT * FROM religions")
+	rows, err := config.DB.Query("SELECT id,name,created_at,updated_at FROM religions")
 
 	if err != nil {
 		panic(err)
@@ -19,7 +19,7 @@ func GetAll() []entities.Religion {
 	for rows.Next() {
 		var religion entities.Religion
 
-		err := rows.Scan(&religion.Id, &religion.Name, &religion.Description, &religion.CreatedAt, &religion.UpdatedAt)
+		err := rows.Scan(&religion.Id, &religion.Name, &religion.CreatedAt, &religion.UpdatedAt)
 
 		if err != nil {
 			panic(err)

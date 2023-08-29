@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard |</title>
+    <title>Users | CRUD-GO</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -70,15 +70,15 @@
           </tr>
         </thead>
         <tbody>
-          {{range .users}}
+          {{range .user}}
           <tr>
             <td>{{ .No }}</td>
             <td>{{ .Email }}</td>
             <td>{{ .ReligionId }}</td>
             <td>
-              <a href="/user/{{.Id}}/edit" class="btn btn-primary">Edit</a>
+              <a href="/user/edit?id={{.Id}}" class="btn btn-primary">Edit</a>
               <a
-                href="/user/{{.Id}}/delete"
+                href="/user/delete?id={{.Id}}"
                 class="btn btn-danger"
                 onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')"
                 >Delete</a

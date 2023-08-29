@@ -2,7 +2,12 @@ package UserController
 
 import (
 	"crud-with-go/entities"
+	ReligionModel "crud-with-go/models/Religion"
 	UserModel "crud-with-go/models/User"
+	"strconv"
+
+	// ReligionModel "crud-with-go/models/Religion"
+	// RoleModel "crud-with-go/models/Role"
 	"crypto/sha256"
 	"encoding/hex"
 	"html/template"
@@ -20,15 +25,15 @@ func HashPassword(password string) string {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	users := UserModel.GetAll()
+	user := UserModel.GetAll()
 
 	// Tambahkan nomor urut ke setiap user
-	for i := 0; i < len(users); i++ {
-		users[i].No = i + 1
+	for i := 0; i < len(user); i++ {
+		user[i].No = i + 1
 	}
 
 	data := map[string]any{
-		"users": users,
+		"user": user,
 	}
 
 	tmpl := template.Must(template.ParseFiles("./views/user/index.html"))
@@ -75,9 +80,65 @@ func Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func Edit(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		tmpl := template.Must(template.ParseFiles("./views/user/edit.html"))
 
+		idString := r.URL.Query().Get("id")
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			panic(err)
+		}
+
+		user := UserModel.GetById(id)
+		religion := ReligionModel.GetAll()
+		data := map[string]any{
+			"user":     user,
+			"religion": religion,
+		}
+
+		err = tmpl.Execute(w, data)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	if r.Method == "POST" {
+		var user entities.User
+
+		idString := r.FormValue("id")
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			panic(err)
+		}
+
+		user.Email = r.FormValue("email")
+		user.Username = r.FormValue("username")
+		user.ReligionId = r.FormValue("religion_id")
+		user.RoleId = r.FormValue("role_id")
+		password := r.FormValue("password")
+		hashedPassword := HashPassword(password)
+		user.Password = hashedPassword
+		user.UpdatedAt = time.Now()
+
+		if ok := UserModel.Update(id, user); !ok {
+			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusSeeOther)
+			return
+		}
+
+		http.Redirect(w, r, "/users", http.StatusSeeOther)
+	}
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
+	idString := r.URL.Query().Get("id")
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		panic(err)
+	}
 
+	if err := UserModel.Delete(id); err != nil {
+		panic(err)
+	}
+
+	http.Redirect(w, r, "/users", http.StatusSeeOther)
 }
