@@ -1,17 +1,37 @@
 path of project:
+
 - crud-with-go/
   - config/
-    - config.go
+    - db.go
   - controllers/
-    - controller1.go
-    - controller2.go
+    - DashboardController/
+      - DashboardController.go
+    - UserController/
+      - UserController.go
+  - entities/
+    - Religion.go
+    - Role.go
+    - User.go
+  - models/
+    - Religion/
+      - religion.go
+    - Role/
+      - Role.go
+    - User/
+      - User.go
   - routes/
     - routes.go
-  - models/
-    - model1.go
-    - model2.go
-  - entities/
-    - entity1.go
-    - entity2.go
+  - vendors/
   - views/
+    - dashboard.html
+    - user/
+      - index.html
+      - create.html
+      - edit.html
+  - .env
+  - .gitignore
+  - db.sql
+  - go.mod
+  - go.sum
   - main.go
+  - README.md
